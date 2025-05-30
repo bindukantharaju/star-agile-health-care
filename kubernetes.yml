@@ -1,11 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: healthcare-app
-  labels:
-    app: healthcare
+  name: healthcare-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: healthcare
@@ -15,11 +13,10 @@ spec:
         app: healthcare
     spec:
       containers:
-        - name: healthcare-container
+        - name: healthcare-app
           image: bindukantharaju/healthcare-app:v1
           ports:
             - containerPort: 8082
-
 ---
 apiVersion: v1
 kind: Service
@@ -28,9 +25,9 @@ metadata:
 spec:
   selector:
     app: healthcare
-  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 80
       targetPort: 8082
+  type: LoadBalancer
 
